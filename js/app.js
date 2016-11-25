@@ -13,5 +13,5 @@
 				controller: 'categoryCtrl as ctrl'
 			})
 			.otherwise('/tasks');
-	})
+	});
 }());
