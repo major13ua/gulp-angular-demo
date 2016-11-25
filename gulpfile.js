@@ -1,5 +1,7 @@
 var gulp = require('gulp'),
-    $ = require('gulp-load-plugins')();
+    $ = require('gulp-load-plugins')(),
+    stylish = require('jshint-stylish'),
+    karma = require('karma');
 
 var files = ['js/**/*.js'];
 
@@ -16,7 +18,13 @@ gulp.task('scripts', function(){
     .pipe(gulp.dest('bin/js'));
 })
 
-gulp.task('default', ['scripts'], function() {
-    gulp.watch(files, ['scripts'])
+gulp.task('validate', function () {
+    gulp.src(files)
+        .pipe($.jshint())
+        .pipe($.jshint.reporter(stylish))
+})
+
+gulp.task('default', ['scripts', 'validate'], function() {
+    gulp.watch(files, ['scripts', 'validate'])
     }
 )
