@@ -1,10 +1,14 @@
 var gulp = require('gulp'),
     $ = require('gulp-load-plugins')(),
     stylish = require('jshint-stylish'),
-    karma = require('karma');
+    karma = require('karma'),
+    args = require('yargs').argv;
 
 var files = ['js/**/*.js'];
 
+var prod = args.prod;
+
+console.log(args);
 
 //neet to get jquery.min, angular, angular-route, angular-mocks, bootstrap
 var karmaFiles = [];
@@ -17,18 +21,19 @@ gulp.task('scripts', function(){
       presets: ['es2015']
     }))
     .pipe($.ngAnnotate())
-    .pipe($.sourcemaps.init())
+    .pipe(!prod ? $.sourcemaps.init() : $.util.noop())
     .pipe($.concat('bundle.js'))
-    .pipe($.uglify())
-    .pipe($.sourcemaps.write())
+    .pipe(prod ? $.uglify() : $.util.noop())
+    .pipe(!prod ? $.sourcemaps.write() : $.util.noop())
     .pipe(gulp.dest('bin/js'));
-})
+});
 
 gulp.task('validate', function () {
     gulp.src(files)
         .pipe($.jshint())
         .pipe($.jshint.reporter(stylish))
-})
+        .pipe(prod ? $.jshint.reporter('fail') : $.util.noop());
+});
 
 gulp.task('tests', function (done) {
 
@@ -46,9 +51,9 @@ gulp.task('tests', function (done) {
     }, function () {
         done();
     }).start();
-})
+});
 
 gulp.task('default', ['scripts', 'validate'], function() {
     gulp.watch(files, ['scripts', 'validate'])
     }
-)
+);
