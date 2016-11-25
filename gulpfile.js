@@ -32,12 +32,16 @@ gulp.task('validate', function () {
 
 gulp.task('tests', function (done) {
 
+    var preprocessors = {};
+    preprocessors[bundle] = ['coverage'];
+
     var testFiles = [spec, bundle];
     testFiles = karmaFiles.concat(testFiles);
 
     new karma.Server({
         configFile: __dirname + '/karma.conf.js',
         files : testFiles,
+        preprocessors : preprocessors,
         singleRun: true
     }, function () {
         done();
