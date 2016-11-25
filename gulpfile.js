@@ -1,9 +1,10 @@
 var gulp = require('gulp'),
     $ = require('gulp-load-plugins')();
 
+var files = ['js/**/*.js'];
 
 gulp.task('scripts', function(){
-  gulp.src('js/**/*.js')
+  gulp.src(files)
     .pipe($.babel({
       presets: ['es2015']
     }))
@@ -16,6 +17,6 @@ gulp.task('scripts', function(){
 })
 
 gulp.task('default', ['scripts'], function() {
-
+    gulp.watch(files, ['scripts'])
     }
 )

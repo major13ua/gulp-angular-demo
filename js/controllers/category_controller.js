@@ -9,7 +9,7 @@
 
 		categoryResource.getCategories()
 			.then(categories => ctrl.categories = categories,
-				error => alert(error)
+				error => console.log(error)
 
 		);
 
