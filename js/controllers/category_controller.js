@@ -6,7 +6,13 @@
 		var ctrl = this;
 
 		ctrl.categories = categoryResource.getCategories();
-		
+
+		categoryResource.getCategories()
+			.then(categories => ctrl.categories = categories,
+				error => alert(error)
+
+		);
+
 		ctrl.newCategory = function(){
 			if(ctrl.newCategoryName === ''){
 				return;

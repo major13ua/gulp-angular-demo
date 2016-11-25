@@ -2,15 +2,22 @@
 	'use strict';
 	var app = angular.module('todo');
 	
-	function categoryResource (){
+	function categoryResource ($q){
 	
 		var categories = ['Pluralsight', 'Consulting', 'Scouts', 'Home'];
+
 		function getCategories(){
-			return categories;
+
+			//return categories;
+			return $q(function (fulfill, reject) {
+				  fulfill(categories)
+                });
 		}
 		
 		return {
-			getCategories: getCategories
+			//getCategories: getCategories
+			//ES Style
+            getCategories
 		};
 			
 			
